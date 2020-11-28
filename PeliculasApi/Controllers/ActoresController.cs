@@ -78,7 +78,7 @@ namespace PeliculasApi.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] ActorCreacionDTO actorCreationDTO)
         {
-            var actorDB = context.Actores.FirstOrDefaultAsync(x => x.Id == id);
+            var actorDB = await context.Actores.FirstOrDefaultAsync(x => x.Id == id);
 
             if (actorDB == null) { return NotFound(); }
 
@@ -91,9 +91,9 @@ namespace PeliculasApi.Controllers
                     await actorCreationDTO.Foto.CopyToAsync(memoryStream);
                     var contenido = memoryStream.ToArray();
                     var extension = Path.GetExtension(actorCreationDTO.Foto.FileName);
-                    //actorDB.Foto = await almacenadorArchivos.EditarArchivo(contenido, extension, contenedor, 
-                    //    actorDB.,
-                    //    actorCreationDTO.Foto.ContentType);
+                    actorDB.Foto = await almacenadorArchivos.EditarArchivo(contenido, extension, contenedor, 
+                    actorDB.Foto,
+                    actorCreationDTO.Foto.ContentType);
                 }
             }
 
